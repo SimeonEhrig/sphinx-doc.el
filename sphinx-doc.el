@@ -143,10 +143,15 @@ Note that the key \"rtype\" is included if
 sphinx-doc-exclude-rtype is not nil."
   (make-sphinx-doc-doc
    :fields (append
-            (mapcar (lambda (a)
-                      (make-sphinx-doc-field
-                       :key "param"
-                       :arg (sphinx-doc-arg-name a)))
+            (mapcan (lambda (a)
+		      (list
+                       (make-sphinx-doc-field
+			:key "param"
+			:arg (sphinx-doc-arg-name a))
+		       (make-sphinx-doc-field
+			:key "type"
+			:arg (sphinx-doc-arg-name a))
+		       ))
                     (sphinx-doc-fndef-args f))
             (if sphinx-doc-exclude-rtype
                 (list (make-sphinx-doc-field :key "returns"))
